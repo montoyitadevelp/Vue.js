@@ -1,11 +1,11 @@
 <script setup>
-import { useAuthStore } from '../../stores/auth.store'
-import { useRouter } from 'vue-router';
+import { useAuthStore } from '../../stores/auth.store';
+import { router } from '../../router';
 
-const authStore = useAuthStore()
-const router = useRouter()
+// redirect home if already logged in
+const authStore = useAuthStore();
 if (authStore.user) {
-  router.push('/')
+  router.push('/');
 }
 </script>
 

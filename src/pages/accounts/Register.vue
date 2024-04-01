@@ -1,4 +1,31 @@
-<script setup></script>
+<script setup>
+import { Form, Field } from 'vee-validate';
+import * as Yup from 'yup';
+import { useUsersStore } from '../../stores/users.store';
+import { useAlertStore } from '../../stores/alert.store';
+import { router } from '../../router';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('First name is required.'),
+  lastname: Yup.string().required('Last name is required.'),
+  email: Yup.string().required('Email is required.'),
+  password: Yup.string()
+    .required('Password is required')
+    .min(6, 'Password must be at least 6 characters'),
+});
+
+async function onSubmit(values) {
+  const userStore = useUsersStore();
+  const alertStore = useAlertStore();
+  try {
+    await userStore.register(values);
+    await router.push('/users/login');
+    alertStore.success('Registration successfull');
+  } catch (error) {
+    alertStore.error(error);
+  }
+}
+</script>
 
 <template>
   <section>
@@ -6,51 +33,65 @@
       <div class="contentTwo">
         <div class="contentThree">
           <h1>Register your account</h1>
-          <form class="loginForm" action="#">
+          <Form
+            @submit="onSubmit"
+            :validation-schema="schema"
+            v-slot="{ errors, isSubmitting }"
+            class="loginForm"
+            action="#"
+          >
             <div>
               <label for="name">Your name</label>
-              <input
+              <Field
+                :class="{ 'is-invalid': errors.firstname }"
                 type="text"
                 name="name"
                 id="name"
                 placeholder="John"
                 required="true"
               />
+              <div class="invalid-feedback">{{ errors.name }}</div>
             </div>
             <div>
               <label for="lastname">Your lastname</label>
-              <input
+              <Field
+                :class="{ 'is-invalid': errors.lastname }"
                 type="text"
                 name="lastname"
                 id="lastname"
                 placeholder="Doe"
                 required="true"
               />
+              <div class="invalid-feedback">{{ errors.lastname }}</div>
             </div>
             <div>
               <label for="email">Your email</label>
-              <input
+              <Field
+                :class="{ 'is-invalid': errors.email }"
                 type="email"
                 name="email"
                 id="email"
                 placeholder="name@company.com"
                 required="true"
               />
+              <div class="invalid-feedback">{{ errors.email }}</div>
             </div>
             <div>
               <label for="password">Password</label>
-              <input
+              <Field
+                :class="{ 'is-invalid': errors.password }"
                 type="password"
                 name="password"
                 id="password"
                 placeholder="••••••••"
                 required="true"
               />
+              <div class="invalid-feedback">{{ errors.password }}</div>
             </div>
             <div class="buttonSubmit">
-              <button type="submit">Sign in</button>
+              <button :disabled="isSubmitting" type="submit">Sign in</button>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
     </div>

@@ -9,11 +9,16 @@ const { user } = storeToRefs(authStore);
 <template>
   <nav>
     <ul>
-      <li class="home">
+      <li v-if="user" class="home">
         <router-link to="/">Home </router-link>
+        <router-link to="/users/all">Users</router-link>
+      </li>
+      <li v-else>
+        <router-link to="/">Home </router-link>
+
       </li>
       <div class="links" v-if="user">
-        <li>{{ user?.info_user?.name }} {{ user?.info_user?.lastname }}</li>
+        <li>Hi {{ user?.info_user?.name }} {{ user?.info_user?.lastname }}</li>
         <button class="logout" @click="authStore.logout()">Logout</button>
       </div>
       <div v-else class="links">
@@ -29,11 +34,16 @@ const { user } = storeToRefs(authStore);
 </template>
 
 <style>
+nav {
+  width: 100%;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
 ul {
   display: flex;
   flex-direction: row;
-  padding: 1rem;
-  background-color: rgb(209 213 219 / 0.6);
+
 }
 
 li {
@@ -43,7 +53,7 @@ li {
 
 a {
   text-decoration: none;
-  color: #111;
+  color: #000;
 }
 
 a:hover {
@@ -52,7 +62,8 @@ a:hover {
 
 .home {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  gap: 2rem;
 }
 
 .links {
@@ -60,8 +71,10 @@ a:hover {
   align-items: center;
   gap: 2rem;
   width: 100%;
-  justify-content: flex-end;
+  justify-content: end;
+  padding-right: 1rem;
 }
+
 
 .logout {
   color: rgb(255, 255, 255);
@@ -72,6 +85,6 @@ a:hover {
   padding-bottom: 0.625rem;
   text-align: center;
   cursor: pointer;
-  width: 20%;
+  width: 10%;
 }
 </style>
