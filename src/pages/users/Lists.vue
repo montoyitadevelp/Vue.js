@@ -28,14 +28,14 @@ usersStore.getAll();
           <td>{{ user.email }}</td>
         </tr>
       </template>
-      <tr v-if="users.loading">
-        <td colspan="4">Loading...</td>
-      </tr>
-      <tr v-if="users.error">
-        <td colspan="4">Error loading users: {{ users.error }}</td>
-      </tr>
     </tbody>
   </table>
+  <div v-if="users.loading">
+    <div class="loading" colspan="4"><van-loading size="64px" /></div>
+  </div>
+  <div v-if="users.error">
+    <div colspan="4">Error loading users: {{ users.error }}</div>
+  </div>
 </template>
 
 <style>
@@ -49,5 +49,10 @@ td {
   padding: 10px;
   border: 1px solid black;
   border-collapse: collapse;
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

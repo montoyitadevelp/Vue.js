@@ -43,7 +43,7 @@ async function onSubmit(values) {
           </Form>
         </div>
       </div>
-      <p v-if="isLoading">Loading...</p>
+      <p class="loading" v-if="isLoading"><van-loading size="64px"/></p>
       <p class="messageLogin" v-if="error">{{ error }}</p>
     </div>
   </section>
@@ -125,5 +125,11 @@ button {
 .messageLogin {
   color: rgb(190 24 93);
   font-weight: 600;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

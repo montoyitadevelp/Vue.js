@@ -22,8 +22,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h2>This say our users from his experiencies!</h2>
-  <div v-if="postsLoading">Loading...</div>
+  <h2 class="title">This say our users from his experiencies!</h2>
+  <div class="loading" v-if="postsLoading"><van-loading size="64px"/></div>
   <div v-else-if="postsError">{{ postsError }}</div>
   <div class="posts" v-else-if="posts">
     <section v-for="post in posts" :key="post.id" class="ownPosts">
@@ -38,6 +38,7 @@ onMounted(async () => {
 .posts {
   display: flex;
   flex-direction: column;
+  padding: 2rem;
   gap: 1rem;
 }
 
@@ -55,5 +56,15 @@ onMounted(async () => {
   line-height: 1.25;
   letter-spacing: -0.025em;
   color: #726e6e;
+}
+
+.title {
+  padding: 1rem;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
